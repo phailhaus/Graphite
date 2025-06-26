@@ -2131,9 +2131,18 @@ dependencies = [
  "glam",
  "graph-craft",
  "graphene-application-io",
+ "graphene-brush",
  "graphene-core",
+ "graphene-element",
+ "graphene-element-nodes",
+ "graphene-math-nodes",
  "graphene-path-bool",
+ "graphene-raster",
+ "graphene-raster-nodes",
  "graphene-svg-renderer",
+ "graphene-text",
+ "graphene-vector",
+ "graphene-vector-nodes",
  "iai-callgrind",
  "js-sys",
  "log",
@@ -2158,10 +2167,30 @@ dependencies = [
  "dyn-any",
  "glam",
  "graphene-core",
+ "graphene-text",
  "log",
  "serde",
  "web-sys",
  "wgpu",
+]
+
+[[package]]
+name = "graphene-brush"
+version = "0.1.0"
+dependencies = [
+ "dyn-any",
+ "glam",
+ "graphene-core",
+ "graphene-element",
+ "graphene-raster",
+ "graphene-raster-nodes",
+ "graphene-svg-renderer",
+ "graphene-vector",
+ "node-macro",
+ "serde",
+ "serde_json",
+ "specta",
+ "tokio",
 ]
 
 [[package]]
@@ -2173,7 +2202,6 @@ dependencies = [
  "fern",
  "futures",
  "graph-craft",
- "graphene-core",
  "graphene-std",
  "interpreted-executor",
  "log",
@@ -2188,14 +2216,12 @@ name = "graphene-core"
 version = "0.1.0"
 dependencies = [
  "base64 0.22.1",
- "bezier-rs",
  "bytemuck",
  "ctor",
  "dyn-any",
  "glam",
  "half",
  "image",
- "kurbo",
  "log",
  "node-macro",
  "num-derive",
@@ -2211,6 +2237,42 @@ dependencies = [
  "tinyvec",
  "tokio",
  "wgpu",
+]
+
+[[package]]
+name = "graphene-element"
+version = "0.1.0"
+dependencies = [
+ "bezier-rs",
+ "dyn-any",
+ "glam",
+ "graphene-core",
+ "graphene-raster",
+ "graphene-vector",
+ "node-macro",
+ "serde",
+ "serde_json",
+ "specta",
+]
+
+[[package]]
+name = "graphene-element-nodes"
+version = "0.1.0"
+dependencies = [
+ "bezier-rs",
+ "dyn-any",
+ "glam",
+ "graphene-core",
+ "graphene-element",
+ "graphene-math-nodes",
+ "graphene-raster",
+ "graphene-vector",
+ "log",
+ "node-macro",
+ "rand 0.9.0",
+ "serde",
+ "specta",
+ "tokio",
 ]
 
 [[package]]
@@ -2233,11 +2295,51 @@ dependencies = [
  "dyn-any",
  "glam",
  "graphene-core",
+ "graphene-element",
+ "graphene-vector",
  "log",
  "node-macro",
  "path-bool",
  "serde",
  "specta",
+]
+
+[[package]]
+name = "graphene-raster"
+version = "0.1.0"
+dependencies = [
+ "base64 0.22.1",
+ "bytemuck",
+ "dyn-any",
+ "glam",
+ "graphene-core",
+ "image",
+ "node-macro",
+ "serde",
+ "serde_json",
+ "specta",
+ "wgpu",
+]
+
+[[package]]
+name = "graphene-raster-nodes"
+version = "0.1.0"
+dependencies = [
+ "bytemuck",
+ "dyn-any",
+ "fastnoise-lite",
+ "futures",
+ "glam",
+ "graphene-core",
+ "graphene-raster",
+ "image",
+ "ndarray",
+ "node-macro",
+ "rand 0.9.0",
+ "rand_chacha 0.9.0",
+ "serde",
+ "specta",
+ "tokio",
 ]
 
 [[package]]
@@ -2252,13 +2354,20 @@ dependencies = [
  "glam",
  "graph-craft",
  "graphene-application-io",
+ "graphene-brush",
  "graphene-core",
+ "graphene-element",
+ "graphene-element-nodes",
  "graphene-math-nodes",
  "graphene-path-bool",
+ "graphene-raster",
+ "graphene-raster-nodes",
  "graphene-svg-renderer",
+ "graphene-text",
+ "graphene-vector",
+ "graphene-vector-nodes",
  "image",
  "log",
- "ndarray",
  "node-macro",
  "rand 0.9.0",
  "rand_chacha 0.9.0",
@@ -2280,11 +2389,71 @@ dependencies = [
  "dyn-any",
  "glam",
  "graphene-core",
+ "graphene-element",
+ "graphene-raster",
+ "graphene-vector",
  "log",
+ "node-macro",
  "num-traits",
  "serde",
+ "serde_json",
+ "specta",
  "usvg",
  "vello",
+]
+
+[[package]]
+name = "graphene-text"
+version = "0.1.0"
+dependencies = [
+ "bezier-rs",
+ "dyn-any",
+ "glam",
+ "graphene-core",
+ "graphene-vector",
+ "kurbo",
+ "node-macro",
+ "rustybuzz 0.20.1",
+ "serde",
+ "specta",
+]
+
+[[package]]
+name = "graphene-vector"
+version = "0.1.0"
+dependencies = [
+ "bezier-rs",
+ "dyn-any",
+ "glam",
+ "graphene-core",
+ "kurbo",
+ "log",
+ "node-macro",
+ "petgraph 0.7.1",
+ "rustc-hash 2.1.1",
+ "serde",
+ "specta",
+ "tinyvec",
+]
+
+[[package]]
+name = "graphene-vector-nodes"
+version = "0.1.0"
+dependencies = [
+ "bezier-rs",
+ "dyn-any",
+ "glam",
+ "graphene-core",
+ "graphene-vector",
+ "kurbo",
+ "log",
+ "node-macro",
+ "petgraph 0.7.1",
+ "rand 0.9.0",
+ "rustc-hash 2.1.1",
+ "serde",
+ "specta",
+ "tokio",
 ]
 
 [[package]]

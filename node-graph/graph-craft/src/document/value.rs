@@ -5,14 +5,14 @@ use dyn_any::DynAny;
 pub use dyn_any::StaticType;
 pub use glam::{DAffine2, DVec2, IVec2, UVec2};
 use graphene_application_io::SurfaceFrame;
-use graphene_core::raster::brush_cache::BrushCache;
-use graphene_core::raster::{BlendMode, LuminanceCalculation};
-use graphene_core::raster_types::CPU;
-use graphene_core::transform::ReferencePoint;
+use graphene_brush::brush_cache::BrushCache;
+use graphene_core::color::Color;
 use graphene_core::uuid::NodeId;
-use graphene_core::vector::style::Fill;
-use graphene_core::{Color, MemoHash, Node, Type};
-use graphene_svg_renderer::RenderMetadata;
+use graphene_core::{MemoHash, Node, Type};
+use graphene_raster::CPU;
+use graphene_svg_renderer::renderer::RenderMetadata;
+use graphene_vector::reference_point::ReferencePoint;
+use graphene_vector::style::Fill;
 use std::fmt::Display;
 use std::hash::Hash;
 use std::marker::PhantomData;
@@ -181,72 +181,72 @@ tagged_value! {
 	F64Array4([f64; 4]),
 	NodePath(Vec<NodeId>),
 	#[serde(alias = "ManipulatorGroupIds")] // TODO: Eventually remove this alias document upgrade code
-	PointIds(Vec<graphene_core::vector::PointId>),
+	PointIds(Vec<graphene_vector::PointId>),
 	// ====================
 	// GRAPHICAL DATA TYPES
 	// ====================
-	GraphicElement(graphene_core::GraphicElement),
+	GraphicElement(graphene_element::GraphicElement),
 	#[cfg_attr(target_arch = "wasm32", serde(deserialize_with = "graphene_core::vector::migrate_vector_data"))] // TODO: Eventually remove this migration document upgrade code
-	VectorData(graphene_core::vector::VectorDataTable),
+	VectorData(graphene_vector::VectorDataTable),
 	#[cfg_attr(target_arch = "wasm32", serde(alias = "ImageFrame", deserialize_with = "graphene_core::raster::image::migrate_image_frame"))] // TODO: Eventually remove this migration document upgrade code
-	RasterData(graphene_core::raster_types::RasterDataTable<CPU>),
+	RasterData(graphene_raster::RasterDataTable<CPU>),
 	#[cfg_attr(target_arch = "wasm32", serde(deserialize_with = "graphene_core::migrate_graphic_group"))] // TODO: Eventually remove this migration document upgrade code
-	GraphicGroup(graphene_core::GraphicGroupTable),
+	GraphicGroup(graphene_element::GraphicGroupTable),
 	#[cfg_attr(target_arch = "wasm32", serde(deserialize_with = "graphene_core::migrate_artboard_group"))] // TODO: Eventually remove this migration document upgrade code
-	ArtboardGroup(graphene_core::ArtboardGroupTable),
+	ArtboardGroup(graphene_element::ArtboardGroupTable),
 	// ============
 	// STRUCT TYPES
 	// ============
-	Artboard(graphene_core::Artboard),
-	Image(graphene_core::raster::Image<Color>),
-	Color(graphene_core::raster::color::Color),
-	OptionalColor(Option<graphene_core::raster::color::Color>),
+	Artboard(graphene_element::Artboard),
+	Image(graphene_raster::image::Image<Color>),
+	Color(Color),
+	OptionalColor(Option<Color>),
 	Palette(Vec<Color>),
-	Subpaths(Vec<bezier_rs::Subpath<graphene_core::vector::PointId>>),
-	Fill(graphene_core::vector::style::Fill),
-	Stroke(graphene_core::vector::style::Stroke),
-	Gradient(graphene_core::vector::style::Gradient),
+	Subpaths(Vec<bezier_rs::Subpath<graphene_vector::PointId>>),
+	Fill(graphene_vector::style::Fill),
+	Stroke(graphene_vector::style::Stroke),
+	Gradient(graphene_core::gradient::Gradient),
 	#[serde(alias = "GradientPositions")] // TODO: Eventually remove this alias document upgrade code
-	GradientStops(graphene_core::vector::style::GradientStops),
-	Font(graphene_core::text::Font),
-	BrushStrokes(Vec<graphene_core::vector::brush_stroke::BrushStroke>),
+	GradientStops(graphene_core::gradient::GradientStops),
+	Font(graphene_text::Font),
+	BrushStrokes(Vec<graphene_brush::brush_stroke::BrushStroke>),
 	BrushCache(BrushCache),
 	DocumentNode(DocumentNode),
-	Curve(graphene_core::raster::curve::Curve),
+	Curve(graphene_raster::curve::Curve),
 	Footprint(graphene_core::transform::Footprint),
-	VectorModification(Box<graphene_core::vector::VectorModification>),
-	FontCache(Arc<graphene_core::text::FontCache>),
+	VectorModification(Box<graphene_vector_nodes::modification::VectorModification>),
+	FontCache(Arc<graphene_text::FontCache>),
 	// ==========
 	// ENUM TYPES
 	// ==========
-	BlendMode(BlendMode),
-	LuminanceCalculation(LuminanceCalculation),
+	BlendMode(graphene_core::blending::BlendMode),
+	LuminanceCalculation(graphene_raster_nodes::adjustments::LuminanceCalculation),
 	XY(graphene_core::extract_xy::XY),
-	RedGreenBlue(graphene_core::raster::RedGreenBlue),
-	RedGreenBlueAlpha(graphene_core::raster::RedGreenBlueAlpha),
-	RealTimeMode(graphene_core::animation::RealTimeMode),
-	NoiseType(graphene_core::raster::NoiseType),
-	FractalType(graphene_core::raster::FractalType),
-	CellularDistanceFunction(graphene_core::raster::CellularDistanceFunction),
-	CellularReturnType(graphene_core::raster::CellularReturnType),
-	DomainWarpType(graphene_core::raster::DomainWarpType),
-	RelativeAbsolute(graphene_core::raster::RelativeAbsolute),
-	SelectiveColorChoice(graphene_core::raster::SelectiveColorChoice),
-	GridType(graphene_core::vector::misc::GridType),
-	ArcType(graphene_core::vector::misc::ArcType),
-	MergeByDistanceAlgorithm(graphene_core::vector::misc::MergeByDistanceAlgorithm),
-	PointSpacingType(graphene_core::vector::misc::PointSpacingType),
+	RedGreenBlue(graphene_raster_nodes::adjustments::RedGreenBlue),
+	RedGreenBlueAlpha(graphene_raster_nodes::adjustments::RedGreenBlueAlpha),
+	RealTimeMode(graphene_element_nodes::animation::RealTimeMode),
+	NoiseType(graphene_raster_nodes::adjustments::NoiseType),
+	FractalType(graphene_raster_nodes::adjustments::FractalType),
+	CellularDistanceFunction(graphene_raster_nodes::adjustments::CellularDistanceFunction),
+	CellularReturnType(graphene_raster_nodes::adjustments::CellularReturnType),
+	DomainWarpType(graphene_raster_nodes::adjustments::DomainWarpType),
+	RelativeAbsolute(graphene_raster_nodes::adjustments::RelativeAbsolute),
+	SelectiveColorChoice(graphene_raster_nodes::adjustments::SelectiveColorChoice),
+	GridType(graphene_vector_nodes::misc::GridType),
+	ArcType(graphene_vector_nodes::misc::ArcType),
+	MergeByDistanceAlgorithm(graphene_vector_nodes::misc::MergeByDistanceAlgorithm),
+	PointSpacingType(graphene_vector_nodes::misc::PointSpacingType),
 	#[serde(alias = "LineCap")]
-	StrokeCap(graphene_core::vector::style::StrokeCap),
+	StrokeCap(graphene_vector::style::StrokeCap),
 	#[serde(alias = "LineJoin")]
-	StrokeJoin(graphene_core::vector::style::StrokeJoin),
-	StrokeAlign(graphene_core::vector::style::StrokeAlign),
-	PaintOrder(graphene_core::vector::style::PaintOrder),
-	FillType(graphene_core::vector::style::FillType),
-	FillChoice(graphene_core::vector::style::FillChoice),
-	GradientType(graphene_core::vector::style::GradientType),
-	ReferencePoint(graphene_core::transform::ReferencePoint),
-	CentroidType(graphene_core::vector::misc::CentroidType),
+	StrokeJoin(graphene_vector::style::StrokeJoin),
+	StrokeAlign(graphene_vector::style::StrokeAlign),
+	PaintOrder(graphene_vector::style::PaintOrder),
+	FillType(graphene_vector::style::FillType),
+	FillChoice(graphene_vector::style::FillChoice),
+	GradientType(graphene_core::gradient::GradientType),
+	ReferencePoint(graphene_vector::reference_point::ReferencePoint),
+	CentroidType(graphene_vector_nodes::misc::CentroidType),
 	BooleanOperation(graphene_path_bool::BooleanOperation),
 }
 

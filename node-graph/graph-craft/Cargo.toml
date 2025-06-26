@@ -15,10 +15,19 @@ loading = ["serde_json"]
 [dependencies]
 # Local dependencies
 dyn-any = { workspace = true }
-graphene-core = { workspace = true }
-graphene-path-bool = { workspace = true }
 graphene-application-io = { workspace = true }
+graphene-brush = { workspace = true }
+graphene-core = { workspace = true }
+graphene-element = { workspace = true }
+graphene-element-nodes = { workspace = true }
+graphene-math-nodes = { workspace = true }
+graphene-raster = { workspace = true }
+graphene-raster-nodes = { workspace = true }
 graphene-svg-renderer = { workspace = true }
+graphene-text = { workspace = true }
+graphene-path-bool = { workspace = true }
+graphene-vector = { workspace = true }
+graphene-vector-nodes = { workspace = true }
 
 # Workspace dependencies
 log = { workspace = true }
