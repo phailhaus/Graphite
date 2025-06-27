@@ -13,7 +13,6 @@ pub mod color {
 }
 
 pub mod adjustments;
-pub mod brush_cache;
 pub mod curve;
 pub mod image;
 
