@@ -1,4 +1,4 @@
-use crate::renderer::{format_transform_matrix, RenderParams};
+use crate::renderer::{RenderParams, format_transform_matrix};
 use glam::{DAffine2, DVec2};
 use graphene_core::consts::{LAYER_OUTLINE_STROKE_COLOR, LAYER_OUTLINE_STROKE_WEIGHT};
 use graphene_core::gradient::{Gradient, GradientType};
